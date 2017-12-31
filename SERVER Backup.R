@@ -2,21 +2,20 @@ library(shiny)
 library(visNetwork)
 library(DiagrammeR)
 
-
+# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-# Creo los storages donde guardar los inputs del UI:  
+  
   miGrafo<- reactiveValues(grafo=NULL)
   n <- reactiveValues(valor=1)
   p <- reactiveValues(valor=1)
   
-# Creo el Observe para que cada vez que se pulse Generate se modifiquen los values de los storages:
   observe({
     #Cada vez que pulse, que se ejecute lo siguiente:
     input$generate
     n <- isolate(as.numeric(input$nnodes))
+    # Definimos sigma ya que es necesario para la función mvrnorm que usaremos posteriormente:
     p <- isolate(as.numeric(input$conexion))
-
-    # Defino la fórmula de Erdos Renyi    
+    
     miGrafo$grafo <- create_graph(
       directed = FALSE) %>%
       add_gnp_graph(
@@ -24,10 +23,9 @@ shinyServer(function(input, output) {
         p = p)
     
   })
-# Llamo al grafo 
+  
   output$grafica<- renderVisNetwork({
-    visnetwork(miGrafo$grafo)
+    visnetwork(misDatos$muestra)
     
   })
 })
-

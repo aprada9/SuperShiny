@@ -1,6 +1,8 @@
 library(shinydashboard)
 library(shiny)
-
+library(visNetwork)
+library(igraph)
+library(statnet)
 
 dashboardPage(
   dashboardHeader(title = "GRAFOS"),
@@ -28,17 +30,24 @@ dashboardPage(
         # Sidebar with a slider input for number of bins
         sidebarLayout(
           sidebarPanel(
-            # Campo para introducir la correlación de la muestra (máximo valor que puede tomar es 1 porque si no da error y se cierra:
-            numericInput   ("nnodes", label = "Número de nodos", 2, step = 1),
+            # Lista desplegable con el tipo de algoritmo de generación de grafos aleatorios que se ofrecen:
+            selectInput(inputId="algorithm", label="Algoritmo", choices = c("Random network model (Erdős-Rényi)" = "erdos",
+                                                                            "Small world (Watts-Strogatz)" = "watts",
+                                                                            "Scale free network (Barabási-Albert)"= "albert"
+                                                                            )),
+            # Campo editable con el número de nodos que se quiere para el grafo aleatrio.
+            numericInput("nnodes", label = "Número de nodos", 2, step = 1),
             
+            # Campo en el que se selecciona el porcentaje de probabilidad que se desea que exista 
+            # a la hora de dibujar conexiones entre dos nodos aleatorios.
             textInput(
-              "arista",
+              "conexion",
               value = 1,
-              label = "% de arista",
-              placeholder = "Introducir % de arista"
+              label = "Porcentaje de conexiones"
             ),
             
-            actionButton("pulse", label = "Generar grafo")
+            actionButton("generate", label = "Generar grafo"),
+            actionButton("download", label = "Descargar grafo")
             
             
           ),
