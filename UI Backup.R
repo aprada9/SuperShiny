@@ -4,6 +4,7 @@ library(visNetwork)
 library(igraph)
 library(statnet)
 
+
 dashboardPage(
   dashboardHeader(title = "GRAFOS"),
   # Lateral del Dashboard
@@ -36,29 +37,29 @@ dashboardPage(
                                                                             "Scale free network (Barabási-Albert)"= "albert"
             )),
             # Campo editable con el número de nodos que se quiere para el grafo aleatrio.
-            numericInput("nnodes", label = "Número de nodos", 2, step = 1),
+            numericInput("nnodes", label = "Número de nodos", 4, step = 1),
             
             # Campo en el que se selecciona el porcentaje de probabilidad que se desea que exista 
             # a la hora de dibujar conexiones entre dos nodos aleatorios.
-            textInput(
-              "conexion",
-              value = 1,
-              label = "Porcentaje de conexiones"
-            ),
+            numericInput("conexion", value = 70, min=1, max=100, step = 1, label = "% de conexiones"),
             
-            actionButton("generate", label = "Generar grafo"),
-            actionButton("download", label = "Descargar grafo")
+            # Botón que habrá que pulsar para general el grafo cada vez que se modifiquen 
+            # los parámetros de los numeric inputs
+            actionButton("generate", label = "Generar grafo")
             
             
           ),
           
-          # Show a plot of the generated distribution
+          # A continuación añadimos los Outputs que se verán:
           mainPanel(
-            #Output de la gráfica y verbatim:
+            # Output del propio grafo:
             visNetworkOutput("grafica"),
-            verbatimTextOutput("distancia"),
-            verbatimTextOutput("centroide")
-          )
+            # Output de texto en el que aparecerá el # de nodo seleccionado
+            tableOutput('view_id'),
+            # Output de texto en el que aparecerá la centralidad del nodo seleccionado.
+            tableOutput("close"))
+          
+          
         )
       )
     ),

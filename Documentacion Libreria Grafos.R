@@ -111,3 +111,42 @@ shinyServer(function(input, output) {
     paste0("La correlación es: ", cor(misDatos$muestra)[1,2])
   })
 })
+
+shiny::runApp(system.file("shiny", package = "visNetwork"))
+
+
+g <- create_graph(
+  directed = FALSE) %>%
+  add_gnp_graph(
+    n = 20,
+    p = 0.2)
+
+
+ggg<- make_graph("Zachary")
+
+f <- create_graph() %>%
+  add_gnp_graph(n=10, p=0.1, loops = FALSE)
+
+neighbors(f,1)
+
+observe({
+  input$download
+  #isolate(miGrafo$grafo)
+  #visExport(visnetwork(miGrafo$grafo))
+  n <- isolate(as.numeric(input$nnodes))
+  p <- isolate(as.numeric(input$conexion))
+})
+
+
+
+
+
+
+teta <- ({
+  nodes <- data.frame(id = 1:15, label = paste("Label", 1:15),
+                      group = sample(LETTERS[1:3], 15, replace = TRUE))
+  
+  edges <- data.frame(from = trunc(runif(15)*(15-1))+1,
+                      to = trunc(runif(15)*(15-1))+1)
+  
+})
