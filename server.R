@@ -51,6 +51,26 @@ shinyServer(function(input, output) {
   # Para obtener solo el dato de la centralidad selecciono la columna 2(con el dato de la centralidadl)
   # de la línea del # nodo seleccionado
     
+  output$between <- renderText({
+    paste("Betweenness centrality: ", (get_betweenness(miGrafo$grafo))[input$grafica_selected,2])
+  })
+  
+  output$klein <- renderText({
+    paste("Kleinberg authority centrality : ", (get_authority_centrality(miGrafo$grafo))[input$grafica_selected,2])
+  })
+  
+  # Indica el número de comunidad a la que pertenece (Edge Betweeness):
+  output$comun1 <- renderText({
+    paste("Group Membership - Edge Betweeness: ", (get_cmty_edge_btwns(miGrafo$grafo))[input$grafica_selected,2])
+  })
+  
+  # Indica el número de comunidad a la que pertenece (Walktrap Method):
+  output$comun2 <- renderText({
+    paste("Group Membership - Walktrap Method: ", (get_cmty_walktrap(miGrafo$grafo))[input$grafica_selected,2])
+  })
+  
+  
+  
 })
 
 

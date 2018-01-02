@@ -57,7 +57,12 @@ dashboardPage(
             # Output de texto en el que aparecerá el # de nodo seleccionado
             tableOutput('view_id'),
             # Output de texto en el que aparecerá la centralidad del nodo seleccionado.
-            tableOutput("close"))
+            tableOutput("close"),
+            tableOutput("between"),
+            tableOutput("klein"),
+            tableOutput("comun1"),
+            tableOutput("comun2")
+            )
 
               
         )
