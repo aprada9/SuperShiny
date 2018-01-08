@@ -33,11 +33,11 @@ dashboardPage(
           sidebarPanel(
             # Lista desplegable con el tipo de algoritmo de generación de grafos aleatorios que se ofrecen:
             selectInput(inputId="algorithm", label="Algoritmo", choices = c("Random network model (Erdős-Rényi)" = "erdos",
-                                                                            "Small world (Watts-Strogatz)" = "watts",
+                                                                            #"Small world (Watts-Strogatz)" = "watts",
                                                                             "Scale free network (Barabási-Albert)"= "albert"
                                                                             )),
             # Campo editable con el número de nodos que se quiere para el grafo aleatrio.
-            numericInput("nnodes", label = "Número de nodos", 4, step = 1),
+            numericInput("nnodes", label = "Número de nodos", 4, step = 1, min = 1),
             
             # Campo en el que se selecciona el porcentaje de probabilidad que se desea que exista 
             # a la hora de dibujar conexiones entre dos nodos aleatorios.
@@ -45,7 +45,18 @@ dashboardPage(
             
             # Botón que habrá que pulsar para general el grafo cada vez que se modifiquen 
             # los parámetros de los numeric inputs
-            actionButton("generate", label = "Generar grafo")
+            
+            actionButton("generate", label = "Generar grafo"),
+            box(width = 15,
+                title = p("Análisis de comunidades", 
+                          actionButton("comunidad1", label = "Edge Betweeness"),
+                          actionButton("comunidad2", label = "Walktrap Method"),
+                          actionButton("centralidad1", label = "Centralidad 1 - Betweenness"),
+                          actionButton("centralidad2", label = "Centralidad 2 - Kleinberg")
+                )
+              )
+            
+            
            
             
           ),

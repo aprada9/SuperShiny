@@ -33,7 +33,7 @@ dashboardPage(
           sidebarPanel(
             # Lista desplegable con el tipo de algoritmo de generación de grafos aleatorios que se ofrecen:
             selectInput(inputId="algorithm", label="Algoritmo", choices = c("Random network model (Erdős-Rényi)" = "erdos",
-                                                                            "Small world (Watts-Strogatz)" = "watts",
+                                                                            #"Small world (Watts-Strogatz)" = "watts",
                                                                             "Scale free network (Barabási-Albert)"= "albert"
             )),
             # Campo editable con el número de nodos que se quiere para el grafo aleatrio.
@@ -45,7 +45,16 @@ dashboardPage(
             
             # Botón que habrá que pulsar para general el grafo cada vez que se modifiquen 
             # los parámetros de los numeric inputs
-            actionButton("generate", label = "Generar grafo")
+            
+            actionButton("generate", label = "Generar grafo"),
+            box(width = 15,
+                title = p("Análisis de comunidades", 
+                          actionButton("comunidad1", label = "Edge Betweeness"),
+                          actionButton("comunidad2", label = "Walktrap Method")
+                )
+            )
+            
+            
             
             
           ),
@@ -57,7 +66,12 @@ dashboardPage(
             # Output de texto en el que aparecerá el # de nodo seleccionado
             tableOutput('view_id'),
             # Output de texto en el que aparecerá la centralidad del nodo seleccionado.
-            tableOutput("close"))
+            tableOutput("close"),
+            tableOutput("between"),
+            tableOutput("klein"),
+            tableOutput("comun1"),
+            tableOutput("comun2")
+          )
           
           
         )
@@ -73,6 +87,5 @@ dashboardPage(
     
   ))
 )
-
 
 

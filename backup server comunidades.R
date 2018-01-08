@@ -10,81 +10,64 @@ shinyServer(function(input, output) {
   n <- reactiveValues(valor=1)
   p <- reactiveValues(valor=1)
   colG <- reactiveValues(comunidad=NULL)
-  algo  <- reactiveValues(name=NULL)
   # Creo el Observe para que cada vez que se pulse Generate se modifiquen los values de los storages:
   observe({
     #Cada vez que pulse, que se ejecute lo siguiente:
     input$generate
-    algo$name <- isolate(input$algorithm)
     n <- isolate(as.numeric(input$nnodes))
     p <- isolate(as.numeric(input$conexion))
     
-    # Defino la fórmula de Erdos Renyi
-    if (algo$name == "erdos") {
-      miGrafo$grafo <- {
-        create_graph(directed = FALSE) %>%
-          add_gnp_graph(n = n,
-                        p = p / 100)
-      }
-    }
-    # Defino la fórmula de Barabási-Albert:
-    else {
-      miGrafo$grafo <- {
-        create_graph(directed = FALSE) %>%
-          add_pa_graph(n = n,
-                       p = p / 100)
-      }
-    }
+    # Defino la fórmula de Erdos Renyi    
+    miGrafo$grafo <- {create_graph(
+      directed = FALSE) %>%
+        add_gnp_graph(
+          n = n,
+          p = p/100)}
     
     miGrafo$grafo <-isolate(miGrafo$grafo)
     
-    
   })
-  
-  observeEvent(  
-    input$centralidad1,
-    isolate(
-      miGrafo$grafo$nodes_df$value<-(get_betweenness(miGrafo$grafo)$betweenness)
-    )
-  )
-  observeEvent(  
-    input$centralidad2,
-    isolate(
-      miGrafo$grafo$nodes_df$value<-(get_authority_centrality(miGrafo$grafo)$authority_centrality)
-    )
-  )
-  
   observeEvent(
-    input$comunidad1,
+    input$checkbox,
     
     isolate(
-      miGrafo$grafo$nodes_df$group <-(get_cmty_edge_btwns(miGrafo$grafo)$edge_btwns_group)
-    )
-  )
+      miGrafo$grafo$nodes_df <-cbind(miGrafo$grafo$nodes_df,"group"=get_cmty_edge_btwns(miGrafo$grafo)$edge_btwns_group)
+    ))
   
   observeEvent(
-    input$comunidad2,
+    input$checkbox2,
     
     isolate(
-      miGrafo$grafo$nodes_df$group <-(get_cmty_walktrap(miGrafo$grafo)$walktrap_group)
+      miGrafo$grafo$nodes_df <-cbind(miGrafo$grafo$nodes_df,"group"=get_cmty_walktrap(miGrafo$grafo)$walktrap_group)
     ))
   
   
   # # Llamo al grafo 
   output$grafica <- renderVisNetwork({
-    
-    visNetwork(miGrafo$grafo$nodes_df, miGrafo$grafo$edges_df, main = "Grafos Aleatorios") %>%
+    #if (input$checkbox) {
+    visNetwork(miGrafo$grafo$nodes_df, miGrafo$grafo$edges_df) %>%
       # A continuación añado la opción de 1.añadir nodos y ejes, 2.resaltar los nodos y ejes seleccionados,
       # 3.la opción de poder clickar sobre los nodos:
       visOptions(
         manipulation = TRUE,
         highlightNearest = TRUE,
         nodesIdSelection = list(enabled = TRUE)
-        
       ) %>%
       # Añado la opción de exportar el grafo en PNG
       visExport()
-    
+    #}
+    # # else{
+    #    visNetwork(miGrafo$grafo$nodes_df, miGrafo$grafo$edges_df) %>%
+    #    #  A continuación añado la opción de 1.añadir nodos y ejes, 2.resaltar los nodos y ejes seleccionados,
+    #    # 3.la opción de poder clickar sobre los nodos:
+    #    visOptions(
+    #      manipulation = TRUE,
+    #      highlightNearest = TRUE,
+    #      nodesIdSelection = list(enabled = TRUE)
+    #    ) %>%
+    #      # Añado la opción de exportar el grafo en PNG
+    #      visExport()
+    #  }
   })
   
   
@@ -122,3 +105,5 @@ shinyServer(function(input, output) {
   
   
 })
+
+

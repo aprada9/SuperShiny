@@ -137,10 +137,13 @@ observe({
   p <- isolate(as.numeric(input$conexion))
 })
 
+g<-as.matrix(g)
+comunidad<- get_cmty_edge_btwns(g)
+comunidad<- as.matrix(comunidad)
+grafo<- as.matrix(comunidad, g)
 
 
-
-
+prueba <- cbind(g$nodes_df, comunidad)
 
 teta <- ({
   nodes <- data.frame(id = 1:15, label = paste("Label", 1:15),
@@ -150,3 +153,72 @@ teta <- ({
                       to = trunc(runif(15)*(15-1))+1)
   
 })
+
+
+d <- make_graph(g$nodes_df,g$edges_df)
+plot(d)
+visNetwork(g)
+##
+visNetwork(g$nodes_df,g$edges_df)
+colG<-get_cmty_edge_btwns(g)
+
+grafo<-c(g$nodes_df,g$edges_df,colG$edge_btwns_group)
+
+names(grafo) <- c("nodes", "edges", "group")
+
+visNetwork(g$nodes_df,g$edges_df)
+
+visNetwork(grafo)
+
+
+g$nodes_df<- cbind(g$nodes_df,"group"=colG$edge_btwns_group)
+
+View(g$nodes_df)
+
+# Líneas para Comunidades!:
+colG<-get_cmty_edge_btwns(g)
+g$nodes_df<- cbind(g$nodes_df,"group"=colG$edge_btwns_group)
+
+g$nodes_df <- cbind(g$nodes_df,"group"=get_cmty_edge_btwns(g)$edge_btwns_group)
+
+
+get_cmty_edge_btwns(g)$edge_btwns_group
+
+visNetwork(g$nodes_df, g$edges_df) %>%
+  visOptions(
+    manipulation = TRUE,
+    highlightNearest = TRUE,
+    nodesIdSelection = list(enabled = TRUE, selected = "1")
+  ) %>%
+  visExport()
+g$nodes_df<-g$nodes_df[-4]
+
+get_cmty_walktrap(g)
+
+# Algoritmo Small World
+s <- sample_smallworld(2, 3, 5, 0.05)
+visIgraph(s)
+i
+gs <- smallworld(g)
+visIgraph(gs)
+smallworld(s)
+
+# En small world no selecciono el numero de nodos, las variables cambian. habria que hacer que cambien los inputs al seleccionar un algoritmo u otro.
+
+# Algortimo Barabasi:
+b <- sample_pa(3,algorithm = "psumtree")
+visNetwork(b)
+
+b <- create_graph(
+  directed = FALSE) %>%
+  add_pa_graph(
+    n = 20,
+    p = 0.2)
+
+visNetwork(b$nodes_df, b$edges_df)
+
+rnorm(20, 10)
+isolate(miGrafo$grafo$edges_df$value) <- rnorm(4, 10)
+
+
+g$nodes_df$group<-get_betweenness(b)
