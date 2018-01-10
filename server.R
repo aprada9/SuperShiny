@@ -2,7 +2,6 @@ library(shiny)
 library(visNetwork)
 library(DiagrammeR)
 
-
 shinyServer(function(input, output) {
   # Creo los storages donde guardar los inputs del UI:  
   miGrafo<- reactiveValues(grafo=NULL)
