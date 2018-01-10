@@ -15,13 +15,13 @@ dashboardPage(
       # los div son para poder poner el boton de dudas a la misma altura.
       div(
         div(
-          style="width:80%; display:inline-block; vertical-align: middle;",
+          style="width:80%; display:inline-block; vertical-align: top;",
           selectInput(
             inputId = "algorithm",
             label = "Algoritmo",
             choices = c(
-              "Random network model (Erdős-Rényi)" = "erdos",
-              "Scale free network (Barabási-Albert)" = "albert"
+              "Random network" = "erdos",
+              "Scale free network" = "albert"
             )
             
           )
@@ -38,7 +38,7 @@ dashboardPage(
           bsPopover(
             id = "q1",
             title = "Información",
-            content = paste0("You should read the "),
+            content = paste0("Selección del algoritmo de generación de grafos aleatorio."),
             placement = "right",
             trigger = "hover",
             options = list(container = "body")
@@ -70,7 +70,7 @@ dashboardPage(
       bsPopover(
         id = "q2",
         title = "Información",
-        content = paste0("You should read the "),
+        content = paste0("Selecciona el número de nodos que quieres que contenga tu grafo.  ADVERTENCIA: Si se elige un número de nodos muy elevado el grafo tardará un tiempo significativo en generarse."),
         placement = "right",
         trigger = "hover",
         options = list(container = "body")
@@ -102,7 +102,7 @@ dashboardPage(
       bsPopover(
         id = "q3",
         title = "Información",
-        content = paste0("You should read the "),
+        content = paste0("Elige el porcentaje de conexiones que deseas que haya entre nodos."),
         placement = "right",
         trigger = "hover",
         options = list(container = "body")
@@ -128,7 +128,7 @@ dashboardPage(
                    bsPopover(
                      id = "q9",
                      title = "Información",
-                     content = paste0("You should read the "),
+                     content = paste0("El análisis de comunidades diferenciará los nodos por colores en función de la comunidad a la que pertenezcan."),
                      placement = "right",
                      trigger = "hover",
                      options = list(container = "body")
@@ -151,7 +151,7 @@ dashboardPage(
         bsPopover(
           id = "q5",
           title = "Información",
-          content = paste0("You should read the "),
+          content = paste0("Se llevará a cabo el análisis de comunidades en base al algoritmo de Edge Betweeness"),
           placement = "right",
           trigger = "hover",
           options = list(container = "body")
@@ -173,7 +173,7 @@ dashboardPage(
         bsPopover(
           id = "q6",
           title = "Información",
-          content = paste0("You should read the "),
+          content = paste0("Se llevará a cabo el análisis de comunidades en base al algoritmo de Walktrap Method"),
           placement = "right",
           trigger = "hover",
           options = list(container = "body")
@@ -194,7 +194,7 @@ dashboardPage(
                 bsPopover(
                   id = "q10",
                   title = "Información",
-                  content = paste0("You should read the "),
+                  content = paste0("El análisis de centralidad diferenciará los nodos por tamaño en función del nivel de centralidad que posea."),
                   placement = "right",
                   trigger = "hover",
                   options = list(container = "body")
@@ -213,7 +213,7 @@ dashboardPage(
         bsPopover(
           id = "q7",
           title = "Información",
-          content = paste0("You should read the "),
+          content = paste0("Se llevará a cabo el análisis de centralidad en base al algoritmo de Betweenness"),
           placement = "right",
           trigger = "hover",
           options = list(container = "body")
@@ -234,7 +234,7 @@ dashboardPage(
         bsPopover(
           id = "q8",
           title = "Información",
-          content = paste0("You should read the "),
+          content = paste0("Se llevará a cabo el análisis de centralidad en base al algoritmo de Kleinberg"),
           placement = "right",
           trigger = "hover",
           options = list(container = "body")
